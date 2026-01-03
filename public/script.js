@@ -11,7 +11,7 @@ async function createPaste() {
   const payload = {
     content,
     ttl_seconds: ttl ? Number(ttl) : undefined,
-    max_views: maxViews ? Number(maxViews) : undefined,
+    max_views: maxViews ? Number(maxViews) + 1 : undefined,
   };
 
   try {
