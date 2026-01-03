@@ -1,8 +1,8 @@
-import { Body, Controller, Get, NotFoundException, Param, Post, Req, Res } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Req } from "@nestjs/common";
 import { CreatePasteDto } from "./dto/paste.dto";
 import { PasteService } from "./paste.service";
-import { getNow } from "src/common/time.util";
-import type { Request, Response } from 'express';
+import { getNow } from "../common/time.util";
+import type { Request} from 'express';
 import { ConfigService } from "@nestjs/config";
 @Controller()
 export class PasteController {
