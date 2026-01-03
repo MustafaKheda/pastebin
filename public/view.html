@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>View Paste | Pastebin Lite</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">PASTEBIN</div>
+        <div class="actions">
+            <a href="/" class="btn green">+ paste</a>
+        </div>
+    </header>
+
+    <!-- Main layout -->
+    <main class="container">
+        <!-- Paste view -->
+        <section class="editor">
+            <h2>View Paste</h2>
+
+            <pre id="pasteContent" class="paste-view-box">
+Loading paste...
+      </pre>
+
+            <div id="meta" class="meta"></div>
+        </section>
+
+
+    </main>
+
+    <script>
+        const id = window.location.pathname.split("/").pop();
+
+        fetch(`/api/pastes/${id}`)
+            .then(async (res) => {
+                const data = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(data?.message || 'Paste not found or expired');
+                }
+
+                return data;
+            })
+            .then((data) => {
+                document.getElementById("pasteContent").textContent =
+                    data.content;
+
+                const meta = [];
+                if (data.expires_at) {
+                    meta.push(
+                        "Expires at: " + new Date(data.expires_at).toLocaleString()
+                    );
+                }
+                if (data.remaining_views !== null) {
+                    meta.push("Remaining views: " + data.remaining_views);
+                }
+
+                document.getElementById("meta").textContent =
+                    meta.join(" | ");
+            })
+            .catch((e) => {
+                console.error(e);
+                document.getElementById("pasteContent").textContent =
+                    e.message || "Paste not found, expired, or view limit exceeded.";
+            });
+    </script>
+</body>
+
+</html>

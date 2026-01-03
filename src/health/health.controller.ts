@@ -8,8 +8,8 @@ export class HealthController {
   @Get()
   async health() {
     try {
-      const response = await this.redis.getClient().ping();
-      return { ok: true, response };
+    await this.redis.getClient().ping();
+      return { ok: true };
     } catch {
       return { ok: false };
     }

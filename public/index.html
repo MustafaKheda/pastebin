@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Pastebin Lite</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="logo">PASTEBIN</div>
+        <div class="actions">
+            <a href="/" class="btn green">+ paste</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="editor">
+            <h2>New Paste</h2>
+
+            <textarea id="content" placeholder="Paste your text here...">
+    </textarea>
+
+            <div class="options">
+                <div>
+                    <label>TTL (seconds)</label>
+                    <input type="number" id="ttl" />
+                </div>
+
+                <div>
+                    <label>Max Views</label>
+                    <input type="number" id="maxViews" />
+                </div>
+
+                <button class="btn green large" onclick="createPaste()">
+                    Create Paste
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -23,7 +23,7 @@
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
-    "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/platform-express": "^11.1.11",
     "class-validator": "^0.14.3",
     "ioredis": "^5.8.2",
     "nanoid": "^3.3.11",

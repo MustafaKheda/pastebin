@@ -40,7 +40,6 @@ export class PasteService {
     if (ttlSeconds) {
       await client.expire(key, ttlSeconds + 60);
     }
-    console.log('Created paste', paste);
     return paste;
   }
 
@@ -48,20 +47,31 @@ export class PasteService {
     const client = this.redis.getClient();
     const key = this.key(id)
     const raw = await client.get(key);
-    if (!raw) throw new NotFoundException();
+    if (!raw) throw new NotFoundException({
+      message: 'Paste not found',
+      reason: 'NOT_FOUND',
+    });
 
     const paste: Paste = JSON.parse(raw);
-    if (!paste) throw new NotFoundException();
-    console.log('Fetched paste', paste);
-    console.log('x-time-ms', id, new Date(now).toISOString());
-    console.log('Checking expiration', paste.expires_at && new Date(paste.expires_at).toISOString());
-    console.log('Current time', Date.now());
+    if (!paste) throw new NotFoundException(
+      {
+        message: 'Paste not found',
+        reason: 'NOT_FOUND',
+      }
+    );
+
     if (paste.expires_at && now > paste.expires_at) {
-      throw new NotFoundException();
+      throw new NotFoundException({
+        message: 'Paste has expired',
+        reason: 'TTL_EXPIRED',
+      });
     }
 
     if (paste.max_views !== null && paste.view_count >= paste.max_views) {
-      throw new NotFoundException();
+      throw new NotFoundException({
+        message: 'Paste view limit exceeded',
+        reason: 'MAX_VIEWS_EXCEEDED',
+      });
     }
 
     paste.view_count += 1;
